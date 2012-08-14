@@ -1,0 +1,17 @@
+name: TCPack
+version: 0.5
+main: me.tzahi.TCPack.TCPack
+author: Tzahi
+commands:
+    ptime:
+        description: Sets your time.
+        usage: /<command>
+    fake:
+        description: Fake.
+        usage: /<command>
+    compress:
+        description: Compressor.
+        usage: /<command>
+    fly:
+        description: Flying commands.
+        usage: /<command>

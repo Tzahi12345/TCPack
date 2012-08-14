@@ -1,0 +1,35 @@
+# For more config help, go see the plugin page on dev.bukkit.org.
+
+# EnablePtime: true - Enable to enable ptime commands, and disable to disable them. This is to try to maximize compatibility with certain plugins.
+
+# EnableFake: true - Enable to enable fake commands, and disable to disable them. This is to try to maximize compatibility with certain plugins.
+
+# EnableCompress: true - Enable to enable compress commands, and disable to disable them. This is to try to maximize compatibility with certain plugins.
+
+# EnableFlight: true - Enable to enable fly commands, and disable to disable them. This is to try to maximize compatibility with certain plugins.
+
+# BanMessage: ' playername has been banned! ' - This is the message all players will receive when said player is fake globally (using /fake gban) banned, only if a reason is not given.
+
+# BanMessageReason: ' playername has been banned (for reason)! ' - This is said to all players when a player is fake globally banned (using /fake gban) and a reason is given.
+
+# BanMessagePlayer: ' You have been banned! ' - This is the message the player will receive when kicked, only if a reason is not given.
+
+# BanMessagePlayerReason: ' You have been banned for reason! ' - This is the message the player will receive when a reason is given.  Replace the word "reason" to where you want the reason to be located.
+
+# ---------------------------------------------------------------
+
+EnablePtime: true
+
+EnableFake: true
+
+EnableCompress: true
+
+EnableFlight: true
+
+BanMessage: ' playername has been banned! '
+
+BanMessageReason: ' playername has been banned (for reason)! '
+
+BanMessagePlayer: ' You have been banned! '
+
+BanMessagePlayerReason: ' You have been banned for reason! '
