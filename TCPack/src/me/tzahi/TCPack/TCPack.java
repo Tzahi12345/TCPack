@@ -265,6 +265,17 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
     	}
     	}
     }
+    if (cmd.getName().equalsIgnoreCase("tcpack")) {
+    	  if(p.hasPermission("tcpack.list")) {
+    	        p.sendMessage(b + "}---- TCPack help ----{");
+    	        p.sendMessage(g + "/fly" + b + " - Get all fly commands.");
+    	        p.sendMessage(g + "/compress" + b + " - Get all compress commands.");
+    	        p.sendMessage(g + "/fake" + b + " - Get all fake commands.");
+    	  }
+        	if(!(p.hasPermission("tcpack.list"))) {
+          		noPerms(sender);
+          	}
+    }
     if (getConfig().getBoolean("EnableFake") == true) {
     if (cmd.getName().equalsIgnoreCase("fake")) {
         if (args.length == 0) {
@@ -279,6 +290,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
       	        p.sendMessage(g + "/fake deop (username)" + b + " - Fake deops player.");
       	        p.sendMessage(g + "/fake ban (username)" + b + " - Quietly fake bans player.");
       	        p.sendMessage(g + "/fake gban (username)" + b + " - Normally fake bans plater.");
+      	        p.sendMessage(g + "/fake kill (username) (reason)" + b + " - Fake kills a person.");
       	        p.sendMessage(g + "/fake say (username) (message)" + b + " - Makes player say message. Put / in message to make it a command.");
       	        return true;  
       	  }
@@ -410,6 +422,27 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
               		noPerms(sender);
               	}
             }
+            if (args[0].equalsIgnoreCase("kill")) {
+              	if(p.hasPermission("fake.kill")) {
+              		
+        	        Player target = Bukkit.getPlayerExact(args[1]);
+        	        
+        	        String message = args[2];
+        	        for(int i = 3; i < args.length; i++) {
+        	             message += " " + args[i];
+        	        }
+        	        String displayname = target.getDisplayName();
+        	        if (target == null) {
+        	        	p.sendMessage(ChatColor.RED + "Player is not online.");
+        	        } 
+        	        if (!(target == null)) {
+        	        	getServer().broadcastMessage(displayname + " was killed by " + message);
+        	        }
+              	}
+              	if(!(p.hasPermission("fake.kill"))) {
+              		noPerms(sender);
+              	}
+            }
         }
         if (args.length >= 3) {
             if (args[0].equalsIgnoreCase("gban")) {
@@ -449,6 +482,22 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
         	        }
         		}
         		if(!(p.hasPermission("fake.say"))) {
+              		noPerms(sender);
+              	}
+        	}
+        	if (args[0].equalsIgnoreCase("kill")) {
+        		if(p.hasPermission("fake.kill")) {
+        			Player target = Bukkit.getPlayerExact(args[1]);
+        			String displayname = target.getDisplayName();
+        	        if (!(target == null)) {
+        	        	String message = args[2];
+        	        	getServer().broadcastMessage(displayname + " was killed by " + message);
+        	        }
+        	        if (target == null) {
+        	        p.sendMessage(ChatColor.RED + "Player is not online.");
+        	        }
+        		}
+        		if(!(p.hasPermission("fake.kill"))) {
               		noPerms(sender);
               	}
         	}
@@ -523,18 +572,18 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
     	if (args.length == 1) {
     		GameMode gamemode = p.getGameMode();
     		if (gamemode == GameMode.CREATIVE) {
-    			p.sendMessage(ChatColor.RED + "You are in Creative mode.");
+    			p.sendMessage(ChatColor.RED + "[Error] You are in Creative mode.");
     		}
     		if (!(gamemode == GameMode.CREATIVE)) {
     		if (args[0].equalsIgnoreCase("on")) {
     			if(p.hasPermission("fly.enable")) {
         			if (p.getAllowFlight() == true) {
-        				p.sendMessage(ChatColor.RED + "You are already flying.");
+        				p.sendMessage(ChatColor.RED + "[Error] You are already flying.");
             			}
         			if (p.getAllowFlight() == false) {
         				p.setAllowFlight(true);
         				p.setFlying(true);
-        				p.sendMessage(ChatColor.DARK_GREEN + "Flight successfully enabled.");
+        				p.sendMessage(ChatColor.DARK_GREEN + "[TCPack] Flight successfully enabled.");
             			}
     			}
     			if (!(p.hasPermission("fly.enable"))) {
@@ -544,12 +593,12 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
     		if (args[0].equalsIgnoreCase("off")) {
     			if (p.hasPermission("fly.disable")) {
         			if (p.getAllowFlight() == false) {
-        				p.sendMessage(ChatColor.RED + "You are already not flying.");
+        				p.sendMessage(ChatColor.RED + "[Error] You are already not flying.");
             			}
         			if (p.getAllowFlight() == true) {
         				p.setAllowFlight(false);
         				p.setFlying(false);
-        				p.sendMessage(ChatColor.DARK_GREEN + "Flight successfully disabled.");
+        				p.sendMessage(ChatColor.DARK_GREEN + "[TCPack] Flight successfully disabled.");
             			}
     			}
     			if (!(p.hasPermission("fly.disable"))) {
@@ -562,7 +611,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 			Player target = Bukkit.getPlayerExact(args[1]);
 			GameMode gamemode = target.getGameMode();
 			if (gamemode == GameMode.CREATIVE) {
-				p.sendMessage(ChatColor.RED + "Player is in Creative mode.");
+				p.sendMessage(ChatColor.RED + "[Error] Player is in Creative mode.");
 			}
 			if (!(gamemode == GameMode.CREATIVE)) {
 		    if (args[0].equalsIgnoreCase("t") || (args[0].equalsIgnoreCase("toggle"))) {
@@ -571,11 +620,11 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 	    			if (target.getAllowFlight() == false) {
 	    				target.setAllowFlight(true);
 	    				target.setFlying(true);
-	    				p.sendMessage(ChatColor.DARK_GREEN + "Flight successfully enabled for "+displayname+".");
+	    				p.sendMessage(ChatColor.DARK_GREEN + "[TCPack] Flight successfully enabled for "+displayname+".");
 	    			} else if (target.getAllowFlight() == true) {
 	    				target.setAllowFlight(false);
 	    				target.setFlying(false);
-	    				p.sendMessage(ChatColor.DARK_GREEN + "Flight successfully disabled for "+displayname+".");
+	    				p.sendMessage(ChatColor.DARK_GREEN + "[TCPack] Flight successfully disabled for "+displayname+".");
 	    			}
 	    		
 		    	}
@@ -587,16 +636,16 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
     			if(p.hasPermission("fly.enable.other")) {    				
     			String displayname = target.getDisplayName();
     			if (target == null) {
-    				p.sendMessage(ChatColor.RED + "Player is not online.");
+    				p.sendMessage(ChatColor.RED + "[Error] Player is not online.");
     			}
     			if (!(target == null)) {
     			if (target.getAllowFlight() == true) {
-    				p.sendMessage(ChatColor.RED + "Player is already flying.");
+    				p.sendMessage(ChatColor.RED + "[Error] Player is already flying.");
     			}
     			if (target.getAllowFlight() == false) {
 				target.setAllowFlight(true);
 				target.setFlying(true);
-				p.sendMessage(ChatColor.DARK_GREEN + "Flight successfully enabled for "+displayname+".");
+				p.sendMessage(ChatColor.DARK_GREEN + "[TCPack] Flight successfully enabled for "+displayname+".");
     			}
     			}
     		}
@@ -608,16 +657,16 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
     			if(p.hasPermission("fly.disable.other")) {
     			String displayname = target.getDisplayName();
     			if (target == null) {
-    				p.sendMessage(ChatColor.RED + "Player is not online.");
+    				p.sendMessage(ChatColor.RED + "[Error] Player is not online.");
     			}
     			if (!(target == null)) {
     			if (target.getAllowFlight() == false) {
-    				p.sendMessage(ChatColor.RED + "Player is already not flying.");
+    				p.sendMessage(ChatColor.RED + "[Error] Player is already not flying.");
     			}
     			if (target.getAllowFlight() == true) {
 				target.setAllowFlight(false);
 				target.setFlying(false);
-				p.sendMessage(ChatColor.DARK_GREEN + "Flight successfully disabled for "+displayname+".");
+				p.sendMessage(ChatColor.DARK_GREEN + "[TCPack] Flight successfully disabled for "+displayname+".");
     			}
     			}
     			}

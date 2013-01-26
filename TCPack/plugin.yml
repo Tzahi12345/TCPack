@@ -1,5 +1,5 @@
 name: TCPack
-version: 0.5
+version: 0.9
 main: me.tzahi.TCPack.TCPack
 author: Tzahi
 commands:
@@ -14,4 +14,7 @@ commands:
         usage: /<command>
     fly:
         description: Flying commands.
+        usage: /<command>
+    tcpack:
+        description: TCPack commands.
         usage: /<command>
